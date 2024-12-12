@@ -7,10 +7,13 @@ import {
   RiseOutlined,
   GlobalOutlined,
   BarChartOutlined,
+  ReadOutlined
+  
 } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
+
 
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -42,6 +45,11 @@ const MainLayout = () => {
       icon: <GlobalOutlined />,
       label: <Link to="/market">Market Overview</Link>,
     },
+    {
+      key: '/blog',
+      icon: <ReadOutlined />,
+      label: <Link to="/blog">Blog</Link>,
+    },
   ];
 
   return (
@@ -60,7 +68,7 @@ const MainLayout = () => {
               textOverflow: 'ellipsis'
             }}
           >
-            Stock Market Prediction
+            Menu
           </Title>
         </div>
         <Menu

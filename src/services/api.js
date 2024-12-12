@@ -25,11 +25,25 @@ export const fetchStockData = async (symbol, timeFrame) => {
   }
 };
 
+export const fetchNews = async (category) => {
+  const url = `${basePath}/news?category=${category}&token=${process.env.REACT_APP_API_KEY}`;
+  const response = await fetch(url);
+  
+
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+
+  return await response.json();
+};
+
+
 
 export const fetchStockDetails = async (stockSymbol) => {
   
   
-  const url = `${basePath}/stock/profile2?symbol=${stockSymbol}&token=csk50bpr01qvrnd77950csk50bpr01qvrnd7795g`;
+  const url = `${basePath}/stock/profile2?symbol=${stockSymbol}&token=${process.env.REACT_APP_API_KEY}`;
   const response = await fetch(url)
 
   if (!response.ok) {

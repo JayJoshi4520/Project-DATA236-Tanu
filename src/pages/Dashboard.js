@@ -279,7 +279,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <h1 className="dashboard-title">Stock Market Prediction</h1>
+      <h1 className="dashboard-title">Dashboard</h1>
       
       <div className="ticker-wrap">
         <div className="ticker">

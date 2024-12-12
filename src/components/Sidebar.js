@@ -32,7 +32,6 @@ const Sidebar = () => {
             icon: <DashboardOutlined />,
             label: 'Dashboard',
           },
-          // ... other menu items
         ]}
       />
     </>

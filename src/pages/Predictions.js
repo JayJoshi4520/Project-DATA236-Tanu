@@ -84,7 +84,7 @@ const Predictions = () => {
   const handleSearch = () => {
     if (searchSymbol) {
       localStorage.setItem("ticker", searchSymbol);
-      const basePrice = 100 + Math.random() * 200; // Random base price for demo
+      const basePrice = 100 + Math.random() * 200; 
       const { actual, predicted } = generateMockData(basePrice, selectedTimeframe);
       
       setStockData({

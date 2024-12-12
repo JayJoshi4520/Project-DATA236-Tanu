@@ -8,11 +8,10 @@ import Predictions from './pages/Predictions';
 import MarketOverview from './pages/MarketOverview';
 import TechnicalAnalysis from './pages/TechnicalAnalysis';
 import './styles/components.css';
-import StockContext from './context/StockContext';
+import Blog from './pages/Blog';
 
 
-function App() {
-
+function App() {  
 
   return (
     <ConfigProvider
@@ -31,6 +30,7 @@ function App() {
             <Route path="technical" element={<TechnicalAnalysis />} />
             <Route path="predictions" element={<Predictions />} />
             <Route path="market" element={<MarketOverview />} />
+            <Route path="blog" element={<Blog />} />
           </Route>
         </Routes>
       </BrowserRouter>
