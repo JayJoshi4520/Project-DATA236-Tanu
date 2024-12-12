@@ -1,0 +1,455 @@
+.stock-info-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.stock-chart-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px !important;
+    margin-bottom: 16px;
+}
+
+.stock-chart-card .ant-card-head-title {
+    color: #ffffff;
+}
+
+.stock-chart-card .ant-card-body {
+    padding: 12px !important;
+}
+
+.timeframe-selector {
+    margin-bottom: 24px;
+    text-align: right;
+}
+
+/* Dark theme overrides */
+body {
+    background: #1a1d2d;
+    color: #ffffff;
+}
+
+.ant-card {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+}
+
+.ant-statistic-title {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.ant-statistic-content {
+    color: #ffffff;
+}
+
+.dashboard-container {
+  padding: 24px;
+  min-height: 100vh;
+  background: #1a1d2d;
+}
+
+.stock-chart-card {
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 24px;
+  min-height: 400px;
+}
+
+/* Dark theme specific styles for charts */
+.ant-card-head-title {
+  color: #ffffff;
+}
+
+.g2-tooltip {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  padding: 10px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.ant-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+/* Add these styles */
+.stock-chart-card .tv-lightweight-charts {
+  background: transparent !important;
+}
+
+.stock-chart-card canvas {
+  background: transparent !important;
+}
+
+.time-frame-selector .ant-radio-button-wrapper {
+  background: transparent;
+  border: none;
+  color: #808A9D;
+}
+
+.time-frame-selector .ant-radio-button-wrapper:hover {
+  color: #fff;
+}
+
+.time-frame-selector .ant-radio-button-wrapper-checked {
+  background: transparent !important;
+  color: #5367FF !important;
+}
+
+.time-frame-selector .ant-radio-button-wrapper-checked::before {
+  background-color: transparent !important;
+}
+
+.time-frame-selector .ant-radio-button-wrapper:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.time-frame-selector .ant-radio-button-wrapper:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+/* Card Styles */
+.ant-card {
+  background: #1A1A1A !important;
+  border: 1px solid #303030 !important;
+  border-radius: 8px !important;
+}
+
+.ant-card-head {
+  border-bottom: 1px solid #303030 !important;
+}
+
+.ant-card-head-title {
+  color: white !important;
+}
+
+/* Chart Card Specific Styles */
+.stock-chart-card {
+  background: #1A1A1A !important;
+  border: 1px solid #303030 !important;
+}
+
+/* Time Frame Selector Styles */
+.time-frame-selector .ant-radio-button-wrapper {
+  background: transparent;
+  border: none;
+  color: #808A9D;
+}
+
+.time-frame-selector .ant-radio-button-wrapper:hover {
+  color: #fff;
+}
+
+.time-frame-selector .ant-radio-button-wrapper-checked {
+  background: transparent !important;
+  color: #5367FF !important;
+}
+
+.time-frame-selector .ant-radio-button-wrapper-checked::before {
+  background-color: transparent !important;
+}
+
+/* Layout Styles */
+.ant-layout {
+  background: #141414 !important;
+}
+
+.ant-layout-sider {
+  background: #1A1A1A !important;
+}
+
+/* Menu Styles */
+.ant-menu {
+  background: #1A1A1A !important;
+}
+
+.ant-menu-item {
+  color: #808A9D !important;
+}
+
+.ant-menu-item:hover {
+  color: white !important;
+}
+
+.ant-menu-item-selected {
+  background-color: #303030 !important;
+  color: white !important;
+}
+
+/* Statistics Styles */
+.ant-statistic-title {
+  color: #808A9D !important;
+}
+
+.ant-statistic-content {
+  color: white !important;
+}
+
+/* Add these styles to your existing CSS */
+
+.dashboard-container .ant-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dashboard-container .ant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.stock-chart-card {
+  background: #1A1A1A !important;
+  border: 1px solid #303030 !important;
+}
+
+.ant-statistic-title {
+  font-size: 16px !important;
+  margin-bottom: 8px !important;
+}
+
+.ant-statistic-content {
+  font-weight: 600 !important;
+}
+
+.ant-card-head-title {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+
+/* Gradient backgrounds for cards */
+.stock-chart-card {
+  background: linear-gradient(145deg, #1A1A1A 0%, #141414 100%) !important;
+}
+
+/* Animation for arrows */
+.anticon-arrow-up, .anticon-arrow-down {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Stock Analysis Page Styles */
+.stock-analysis-container {
+  padding: 20px;
+}
+
+.stock-info-card {
+  background: #1A1A1A !important;
+  border: 1px solid #303030 !important;
+  border-radius: 12px !important;
+  margin-bottom: 20px;
+}
+
+.stock-info-details {
+  background: #1A1A1A !important;
+  border: 1px solid #303030 !important;
+  border-radius: 12px !important;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.info-item .label {
+  color: #808A9D;
+}
+
+.info-item .value {
+  color: white;
+  font-weight: 500;
+}
+
+.time-frame-selector .ant-radio-button-wrapper {
+  background: transparent;
+  border: none;
+  color: #808A9D;
+  padding: 4px 16px;
+}
+
+.time-frame-selector .ant-radio-button-wrapper-checked {
+  background: rgba(107, 116, 230, 0.1) !important;
+  color: #6B74E6 !important;
+}
+
+.ant-input-search {
+  background: transparent;
+}
+
+.ant-input-search .ant-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #303030;
+  color: white;
+}
+
+.ant-input-search .ant-input:focus {
+  border-color: #6B74E6;
+}
+
+.predictions-container {
+  padding: 20px;
+}
+
+.prediction-summary-card,
+.prediction-chart-card {
+  border-radius: 12px;
+}
+
+.ant-table {
+  background: #1A1A1A !important;
+}
+
+.ant-table-thead > tr > th {
+  background: #1A1A1A !important;
+  color: white !important;
+  border-bottom: 1px solid #303030 !important;
+}
+
+.ant-table-tbody > tr > td {
+  background: #1A1A1A !important;
+  border-bottom: 1px solid #303030 !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: #252525 !important;
+}
+
+.custom-pagination .ant-pagination-item,
+.custom-pagination .ant-pagination-prev,
+.custom-pagination .ant-pagination-next {
+  background: #1A1A1A !important;
+  border-color: #303030 !important;
+}
+
+.custom-pagination .ant-pagination-item a {
+  color: white !important;
+}
+
+.custom-pagination .ant-pagination-item-active {
+  border-color: #6B74E6 !important;
+}
+
+.technical-analysis-container {
+  padding: 20px;
+}
+
+.indicator-card {
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.indicator-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ant-statistic-title {
+  color: #808A9D !important;
+  font-size: 16px !important;
+  margin-bottom: 8px !important;
+}
+
+.ant-statistic-content {
+  color: white !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
+
+.company-info-card {
+  margin-bottom: 20px;
+}
+
+.info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-item .label {
+  color: #808A9D;
+  font-size: 14px;
+}
+
+.info-item .value {
+  color: white;
+  font-weight: 500;
+}
+
+.stock-analysis-container {
+  padding: 20px;
+}
+
+/* Update search input styles */
+.ant-input-search .ant-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #303030;
+  color: white;
+}
+
+.ant-input-search .ant-input:focus {
+  border-color: #6B74E6;
+}
+
+.market-overview-container {
+  padding: 20px;
+}
+
+.market-index-card {
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.market-index-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.market-chart-card {
+  background: #1A1A1A !important;
+}
+
+.market-chart-card .ant-card-head {
+  border-bottom: 1px solid #303030;
+}
+
+.market-chart-card .ant-card-head-title {
+  color: white;
+}
+
+/* Time frame selector styles */
+.time-frame-selector .ant-radio-button-wrapper {
+  background: transparent;
+  border: none;
+  color: #808A9D;
+  padding: 4px 16px;
+}
+
+.time-frame-selector .ant-radio-button-wrapper:hover {
+  color: white;
+}
+
+.time-frame-selector .ant-radio-button-wrapper-checked {
+  background: rgba(107, 116, 230, 0.1) !important;
+  color: #6B74E6 !important;
+}
+
+.time-frame-selector .ant-radio-button-wrapper-checked::before {
+  background-color: transparent !important;
+} 

@@ -1,0 +1,78 @@
+/* Reset default margins and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .technical-page {
+    padding: 20px;
+    background-color: #1A1A1A;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  /* Cards styling */
+  .indicator-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .indicator-card {
+    background-color: #1E1E1E;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .indicator-label {
+    color: #808080;
+    font-size: 16px;
+  }
+  
+  .indicator-value {
+    color: #FFFFFF;
+    font-size: 28px;
+    font-weight: 500;
+  }
+  
+  /* Time frame buttons */
+  .timeframe-buttons {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0;
+  }
+  
+  .timeframe-buttons button {
+    background-color: #1E1E1E;
+    border: none;
+    color: #FFFFFF;
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .timeframe-buttons button.active {
+    background-color: #4CAF50;
+  }
+  
+  /* Chart container */
+  .chart-wrapper {
+    background-color: #1E1E1E;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  /* Ensure the chart grid lines are visible */
+  :global(.highcharts-grid-line) {
+    stroke: #242424;
+  } 
