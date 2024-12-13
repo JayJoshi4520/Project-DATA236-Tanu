@@ -7,6 +7,10 @@ import './TechnicalAnalysis.css';
 const TechnicalAnalysis = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('1D');
   const [chartData, setChartData] = useState([]);
+  const [searchSymbol, setSearchSymbol] = useState(() => {
+    const localStock = localStorage.getItem("ticker");
+    return localStock || 'AAPL';
+  });
   const [technicalIndicators, setTechnicalIndicators] = useState({
     ma20: 0,
     rsi: 0,
@@ -14,9 +18,10 @@ const TechnicalAnalysis = () => {
   });
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
-        const data = await getLiveStockData('AAPL', selectedTimeframe);
+        const data = await getLiveStockData(searchSymbol, selectedTimeframe);
         if (data.success) {
           // Process data for weekly view
           let processedPrices;
@@ -85,7 +90,7 @@ const TechnicalAnalysis = () => {
         }
       },
       title: {
-        text: 'TECHNICAL ANALYSIS',
+        text: `${searchSymbol} TECHNICAL ANALYSIS`,
         style: { color: '#FFFFFF' }
       },
       xAxis: {

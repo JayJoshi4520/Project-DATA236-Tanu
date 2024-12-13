@@ -44,6 +44,27 @@ export const subscribeToStockUpdates = (symbol, onUpdate) => {
   };
 };
 
+const getInterval = (timeFrame) => {
+  switch (timeFrame) {
+    case '1D': return '1d';
+    case '1W': return '1d';
+    case '1M': return '1d';
+    case '1Y': return '1wk';
+    default: return '1d';
+  }
+};
+
+const getStockPeriod = (timeFrame) => {
+  switch (timeFrame) {
+    case '1D': return '10d';
+    case '1W': return '1mo';
+    case '1M': return '3mo';
+    case '1Y': return '1y';
+    default: return '1d';
+  }
+};
+
+
 export const getLiveStockData = async (symbol, timeframe) => {
 
   
@@ -57,8 +78,7 @@ export const getLiveStockData = async (symbol, timeframe) => {
       },
       body: JSON.stringify({
         ticker: symbol,
-        interval : "1m",
-        stockPeriod : "1D"
+        timeframe: timeframe
       })
     });
 
@@ -68,7 +88,6 @@ export const getLiveStockData = async (symbol, timeframe) => {
 
     const data = await response.json();
 
-    // Add error handling for empty data
     if (!data || !data.liveData || data.liveData.length === 0) {
       return {
         success: false,
@@ -76,17 +95,20 @@ export const getLiveStockData = async (symbol, timeframe) => {
         liveData: []
       };
     }
+    
+    
 
     return {
       success: true,
-      liveData: data.liveData
+      liveData: data.liveData,
+      company: data.company
     };
   } catch (error) {
     console.error('API Error:', error);
     return {
       success: false,
       message: error.message,
-      liveData: []
+      liveData: [],
     };
   }
 };

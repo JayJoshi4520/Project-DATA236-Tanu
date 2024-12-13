@@ -41,11 +41,6 @@ const MainLayout = () => {
       label: <Link to="/predictions">Predictions</Link>,
     },
     {
-      key: '/market',
-      icon: <GlobalOutlined />,
-      label: <Link to="/market">Market Overview</Link>,
-    },
-    {
       key: '/blog',
       icon: <ReadOutlined />,
       label: <Link to="/blog">Blog</Link>,

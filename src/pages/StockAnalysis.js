@@ -43,6 +43,7 @@ const StockAnalysis = () => {
 
 
       if (response?.success && response?.liveData?.length > 0) {
+
         setChartData(response.liveData.map(item => ({
           date: new Date(item.date).getTime(),
           open: item.open,
@@ -50,19 +51,7 @@ const StockAnalysis = () => {
           low: item.low,
           close: item.close
         })));
-
-        // Update stock info if available in response
-        if (response.stockInfo) {
-          setStockInfo({
-            name: response.stockInfo.name || 'N/A',
-            ipoDate: response.stockInfo.ipoDate || 'N/A',
-            country: response.stockInfo.country || 'N/A',
-            marketCap: response.stockInfo.marketCap || 'N/A',
-            currency: response.stockInfo.currency || 'N/A',
-            industry: response.stockInfo.industry || 'N/A',
-            exchange: response.stockInfo.exchange || 'N/A'
-          });
-        }
+        
       }
     } catch (error) {
       console.error('Error fetching stock data:', error);
@@ -84,6 +73,10 @@ const StockAnalysis = () => {
 
   // Set up polling for live updates
   useEffect(() => {
+    if(chartData){
+      console.log(chartData);
+      
+    }
     fetchStockData(searchSymbol, selectedTimeframe);
     if (searchSymbol) {
       const interval = setInterval(() => {
@@ -108,9 +101,9 @@ const StockAnalysis = () => {
             if (searchSymbol) {
               fetchStockData(searchSymbol.toUpperCase(), selectedTimeframe)
                 .then(newData => {
-                  if (chart.series[0]) {
+                  if (chart.series && chart.series.length > 0) {
                     chart.series[0].setData(newData);
-                  }
+                }
                 });
             }
           }, 60000); // Update every minute

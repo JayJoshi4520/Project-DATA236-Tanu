@@ -4,6 +4,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsStock from 'highcharts/modules/stock';
 import './Dashboard.css';
+import { ignore } from 'antd/es/theme/useToken';
 
 // Initialize Highcharts modules
 HighchartsStock(Highcharts);
@@ -15,27 +16,39 @@ const Dashboard = () => {
     return localStock || 'AAPL';
   });
   const [stockData, setStockData] = useState({
-    AAPL: { price: 0, change: 0 },
-    GOOGL: { price: 0, change: 0 },
-    MSFT: { price: 0, change: 0 },
-    AMZN: { price: 0, change: 0 },
-    META: { price: 0, change: 0 }
+    AAPL: { price: 0, change: 0, company: '' },
+    GOOGL: { price: 0, change: 0, company: '' },
+    MSFT: { price: 0, change: 0, company: '' },
+    AMZN: { price: 0, change: 0, company: '' },
+    META: { price: 0, change: 0, company: '' },
+    TSLA: { price: 0, change: 0, company: '' },
+    NVDA: { price: 0, change: 0, company: '' },
+    JPM: { price: 0, change: 0, company: '' },
+    WMT: { price: 0, change: 0, company: '' },
+    NFLX: { price: 0, change: 0, company: '' },
+    IBM: { price: 0, change: 0, company: '' },
+    HD: { price: 0, change: 0, company: '' },
   });
   const [selectedStockData, setSelectedStockData] = useState({
     symbol: '',
+    company: '',
     chartData: []
   });
 
   // Add ticker data for the scrolling banner
   const tickerData = [
-    { symbol: 'AAPL', price: '0', change: '0%' },
-    { symbol: 'GOOGL', price: '0', change: '0%' },
-    { symbol: 'MSFT', price: '0', change: '0%' },
-    { symbol: 'AMZN', price: '0', change: '0%' },
-    { symbol: 'META', price: '0', change: '0%' },
-    { symbol: 'TSLA', price: '0', change: '0%' },
-    { symbol: 'NVDA', price: '0', change: '0%' },
-    { symbol: 'JPM', price: '0', change: '0%' },
+    { symbol: 'AAPL', price: stockData.AAPL.price.toFixed(2), change: stockData.AAPL.change.toFixed(2), company: stockData.AAPL.company},
+    { symbol: 'GOOGL', price: stockData.GOOGL.price.toFixed(2), change: stockData.GOOGL.change.toFixed(2), company: stockData.GOOGL.company },
+    { symbol: 'MSFT', price: stockData.MSFT.price.toFixed(2), change: stockData.MSFT.change.toFixed(2), company: stockData.MSFT.company },
+    { symbol: 'AMZN', price: stockData.AMZN.price.toFixed(2), change: stockData.AMZN.change.toFixed(2), company: stockData.AMZN.company  },
+    { symbol: 'META', price: stockData.META.price.toFixed(2), change: stockData.META.change.toFixed(2), company: stockData.META.company  },
+    { symbol: 'TSLA', price: stockData.TSLA.price.toFixed(2), change: stockData.TSLA.change.toFixed(2), company: stockData.TSLA.company  },
+    { symbol: 'NVDA', price: stockData.NVDA.price.toFixed(2), change: stockData.NVDA.change.toFixed(2), company: stockData.NVDA.company  },
+    { symbol: 'JPM', price: stockData.JPM.price.toFixed(2), change: stockData.JPM.change.toFixed(2), company: stockData.JPM.company },
+    { symbol: 'WMT', price: stockData.WMT.price.toFixed(2), change: stockData.WMT.change.toFixed(2), company: stockData.WMT.company  },
+    { symbol: 'NFLX', price: stockData.NFLX.price.toFixed(2), change: stockData.NFLX.change.toFixed(2), company: stockData.NFLX.company  },
+    { symbol: 'HD', price: stockData.HD.price.toFixed(2), change: stockData.HD.change.toFixed(2), company: stockData.HD.company  },
+    { symbol: 'IBM', price: stockData.IBM.price.toFixed(2), change: stockData.IBM.change.toFixed(2), company: stockData.IBM.company  },
   ];
 
   const handleSearch = async () => {
@@ -47,6 +60,7 @@ const Dashboard = () => {
       if (response?.success && response?.liveData?.length > 0) {
         setSelectedStockData({
           symbol: searchSymbol,
+          company: response.company,
           chartData: generateCandlestickData(searchSymbol, selectedTimeframe)
         })
       }
@@ -57,9 +71,9 @@ const Dashboard = () => {
 
 
   const renderStockCards = () => {
-    return Object.entries(stockData).map(([symbol, data]) => (
+    return Object.entries(stockData).slice(0,5).map(([symbol, data]) => (
       <div key={symbol} className="stock-card">
-        <h2>{symbol}</h2>
+        <h2>{data.company}</h2>
         <div className={`price ${data.change > 0 ? 'positive' : data.change < 0 ? 'negative' : ''}`}>
           ${(data.price || 0).toFixed(2)}
         </div>
@@ -77,7 +91,7 @@ const Dashboard = () => {
       height: 400
     },
     title: {
-      text: selectedStockData.symbol ? `${selectedStockData.symbol} Stock Price` : '',
+      text: selectedStockData.symbol ? `${selectedStockData.company} Stock Price` : '',
       style: { color: '#FFFFFF' }
     },
     navigator: {
@@ -237,10 +251,15 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+
+    if(selectedStockData.chartData){
+      console.log(selectedStockData.chartData);
+      
+    }
     
     const fetchData = async () => {
       try {
-        const stocks = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'META'];
+        const stocks = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'META', 'NVDA', 'TSLA', 'JPM', 'WMT', 'HD', 'NFLX', 'IBM'];
         const responses = await Promise.all(
           stocks.map(stock => getLiveStockData(stock, '1D'))
         );
@@ -251,10 +270,13 @@ const Dashboard = () => {
             const latestData = response.liveData[response.liveData.length - 1];
             const prevData = response.liveData[0];
             const priceChange = ((latestData.close - prevData.close) / prevData.close) * 100;
+            const company = response.company
+            
 
             newData[stocks[index]] = {
               price: latestData.close || 0,
-              change: priceChange || 0
+              change: priceChange || 0,
+              company: company
             };
           }
         });
@@ -285,10 +307,10 @@ const Dashboard = () => {
         <div className="ticker">
           {[...tickerData, ...tickerData].map((stock, index) => (
             <div key={index} className="ticker-item">
-              <span className="ticker-symbol">{stock.symbol}</span>
+              <span className="ticker-symbol">{stock.company}</span>
               <span className="ticker-price">${stock.price}</span>
               <span className={`ticker-change ${parseFloat(stock.change) >= 0 ? 'positive' : 'negative'}`}>
-                {stock.change}
+                {stock.change} %
               </span>
             </div>
           ))}
