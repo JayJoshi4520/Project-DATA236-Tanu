@@ -37,9 +37,10 @@ const Search = () => {
 
   return (
     <div
-      className={`flex items-center my-4 border-2 rounded-md relative z-50 w-90 ${
-         "bg-gray-900 border-gray-800"
-      }`}
+    className={`flex items-center my-4 border-2 rounded-md relative z-50 ${
+      "bg-gray-900 border-gray-800"
+    }`}
+    style={{ width: '500px' }} // 设置为500px宽度
     >
       <input
         type="text"
