@@ -5,6 +5,9 @@ import HighchartsReact from 'highcharts-react-official';
 import HighchartsStock from 'highcharts/modules/stock';
 import './Dashboard.css';
 import { ignore } from 'antd/es/theme/useToken';
+import Search from '../components/Search';
+
+
 
 // Initialize Highcharts modules
 HighchartsStock(Highcharts);
@@ -55,7 +58,7 @@ const Dashboard = () => {
     if (!searchSymbol) return;
     localStorage.setItem("ticker", searchSymbol);
     try {
-      
+
       const response = await getLiveStockData(searchSymbol.toUpperCase(), selectedTimeframe);
       if (response?.success && response?.liveData?.length > 0) {
         setSelectedStockData({
@@ -194,7 +197,7 @@ const Dashboard = () => {
     for (let i = 0; i < points; i++) {
       const date = new Date(time);
       const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-      
+
       if (!isWeekend || timeframe === '1M' || timeframe === '1Y') {
         const volatility = getVolatility(timeframe);
         const trend = Math.random() - 0.5;
@@ -221,7 +224,7 @@ const Dashboard = () => {
     return data;
   };
 
-  
+
 
   // Helper functions for better price generation
   const getBasePrice = (symbol) => {
@@ -252,6 +255,10 @@ const Dashboard = () => {
 
   useEffect(() => {
 
+    if(selectedStockData.chartData){
+      console.log(selectedStockData.chartData);
+
+    }
     
     const fetchData = async () => {
       try {
@@ -267,7 +274,7 @@ const Dashboard = () => {
             const prevData = response.liveData[0];
             const priceChange = ((latestData.close - prevData.close) / prevData.close) * 100;
             const company = response.company
-            
+
 
             newData[stocks[index]] = {
               price: latestData.close || 0,
@@ -298,7 +305,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <h1 className="dashboard-title">Dashboard</h1>
-      
+
       <div className="ticker-wrap">
         <div className="ticker">
           {[...tickerData, ...tickerData].map((stock, index) => (
@@ -319,31 +326,33 @@ const Dashboard = () => {
 
       <div className="search-section">
         <div className="search-container">
-          <input 
-            type="text" 
+          {/*<input
+            type="text"
             value={searchSymbol}
             onChange={(e) => setSearchSymbol(e.target.value)}
-            placeholder="Enter stock symbol..." 
+            placeholder="Enter stock symbol..."
             className="search-input"
           />
           <button onClick={handleSearch} className="search-button">Search</button>
-        </div>
+          */}
 
+        <Search />
+        </div>
         <div className="timeframe-buttons">
-          <button 
-            className={selectedTimeframe === '1D' ? 'active' : ''} 
+          <button
+            className={selectedTimeframe === '1D' ? 'active' : ''}
             onClick={() => setSelectedTimeframe('1D')}
           >1D</button>
-          <button 
-            className={selectedTimeframe === '1W' ? 'active' : ''} 
+          <button
+            className={selectedTimeframe === '1W' ? 'active' : ''}
             onClick={() => setSelectedTimeframe('1W')}
           >1W</button>
-          <button 
-            className={selectedTimeframe === '1M' ? 'active' : ''} 
+          <button
+            className={selectedTimeframe === '1M' ? 'active' : ''}
             onClick={() => setSelectedTimeframe('1M')}
           >1M</button>
-          <button 
-            className={selectedTimeframe === '1Y' ? 'active' : ''} 
+          <button
+            className={selectedTimeframe === '1Y' ? 'active' : ''}
             onClick={() => setSelectedTimeframe('1Y')}
           >1Y</button>
         </div>

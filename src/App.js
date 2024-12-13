@@ -8,9 +8,14 @@ import Predictions from './pages/Predictions';
 import TechnicalAnalysis from './pages/TechnicalAnalysis';
 import './styles/components.css';
 import Blog from './pages/Blog';
+import StockContext from "./context/StockContext";
 
 
-function App() {  
+function App() {
+  const [stockSymbol, setStockSymbol] = useState(() => {
+      const localStock = localStorage.getItem("ticker");
+      return localStock || "AAPL";
+    });
 
   return (
     <ConfigProvider
@@ -21,6 +26,7 @@ function App() {
         },
       }}
     >
+    <StockContext.Provider value={{ stockSymbol, setStockSymbol }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}>
@@ -32,6 +38,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </StockContext.Provider>
     </ConfigProvider>
   );
 }

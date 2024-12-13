@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://127.0.0.1:8000/getlivedata',
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/getlivedata`,
 });
 
-const BASE_URL = 'http://127.0.0.1:8000';
+const BASE_URL = `${process.env.REACT_APP_BACKEND_URL}`;
 let ws = null;
 
 export const subscribeToStockUpdates = (symbol, onUpdate) => {
@@ -13,7 +13,7 @@ export const subscribeToStockUpdates = (symbol, onUpdate) => {
   }
 
   ws = new WebSocket(`ws://localhost:8000/ws/${symbol}`);
-  
+
   ws.onopen = () => {
     console.log(`WebSocket Connected for ${symbol}`);
   };
@@ -67,8 +67,8 @@ const getStockPeriod = (timeFrame) => {
 
 export const getLiveStockData = async (symbol, timeframe) => {
 
-  
-  
+
+
   try {
     // Make the data request directly without health check
     const response = await fetch(`${BASE_URL}/getlivedata`, {
@@ -95,8 +95,8 @@ export const getLiveStockData = async (symbol, timeframe) => {
         liveData: []
       };
     }
-    
-    
+
+
 
     return {
       success: true,
@@ -292,4 +292,4 @@ export const handleApiError = (error) => {
   };
 };
 
-export default instance; 
+export default instance;

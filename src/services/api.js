@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 const basePath = "https://finnhub.io/api/v1";
 const instance = axios.create({
-  baseURL: 'http://127.0.0.1:8000/getlivedata',
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/getlivedata`,
 });
 
 export const fetchStockData = async (symbol, timeFrame) => {
@@ -17,7 +17,7 @@ export const fetchStockData = async (symbol, timeFrame) => {
       }
     });
     console.log(response.data);
-    
+
     return response.data;
   } catch (error) {
     console.error('Error fetching stock data:', error);
@@ -28,7 +28,7 @@ export const fetchStockData = async (symbol, timeFrame) => {
 export const fetchNews = async (category) => {
   const url = `${basePath}/news?category=${category}&token=${process.env.REACT_APP_API_KEY}`;
   const response = await fetch(url);
-  
+
 
   if (!response.ok) {
     const message = `An error has occured: ${response.status}`;
@@ -41,8 +41,8 @@ export const fetchNews = async (category) => {
 
 
 export const fetchStockDetails = async (stockSymbol) => {
-  
-  
+
+
   const url = `${basePath}/stock/profile2?symbol=${stockSymbol}&token=${process.env.REACT_APP_API_KEY}`;
   const response = await fetch(url)
 
@@ -159,7 +159,7 @@ export const getStockInfo = async (ticker) => {
 export const getMarketIndices = async (timeFrame) => {
   try {
     const indices = ['%5EGSPC', '%5EIXIC', '%5EDJI']; // S&P 500, NASDAQ, DOW JONES
-    const promises = indices.map(index => 
+    const promises = indices.map(index =>
       fetch(`${BASE_URL}/getlivedata`, {
         method: 'POST',
         headers: {
@@ -174,7 +174,7 @@ export const getMarketIndices = async (timeFrame) => {
     );
 
     const results = await Promise.all(promises);
-    
+
     return {
       SP500: formatMarketData(results[0]),
       NASDAQ: formatMarketData(results[1]),
@@ -211,4 +211,4 @@ const formatMarketData = (response) => {
   };
 };
 
-export default instance; 
+export default instance;

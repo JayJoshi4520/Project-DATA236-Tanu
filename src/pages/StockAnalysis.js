@@ -4,6 +4,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { getLiveStockData } from '../api';
 import './StockAnalysis.css';
 import { fetchStockDetails } from '../services/api';
+import Search from '../components/Search';
 
 const StockAnalysis = () => {
   const [searchSymbol, setSearchSymbol] = useState(() => {
@@ -27,7 +28,7 @@ const StockAnalysis = () => {
       const response = await getLiveStockData(symbol, timeframe);
 
       const stockDetailResponse = fetchStockDetails(symbol)
-      
+
       stockDetailResponse.then((res) => {
         setStockInfo({
           name: res.name,
@@ -51,7 +52,7 @@ const StockAnalysis = () => {
           low: item.low,
           close: item.close
         })));
-        
+
       }
     } catch (error) {
       console.error('Error fetching stock data:', error);
@@ -75,13 +76,13 @@ const StockAnalysis = () => {
   useEffect(() => {
     if(chartData){
       console.log(chartData);
-      
+
     }
     fetchStockData(searchSymbol, selectedTimeframe);
     if (searchSymbol) {
       const interval = setInterval(() => {
         fetchStockData(searchSymbol.toUpperCase(), selectedTimeframe);
-      }, 60000); 
+      }, 60000);
 
       return () => clearInterval(interval);
     }
@@ -118,8 +119,8 @@ const StockAnalysis = () => {
       type: 'datetime',
       labels: {
         style: { color: '#808080' },
-        format: selectedTimeframe === '1D' ? '{value:%H:%M}' : 
-               selectedTimeframe === '1W' ? '{value:%e %b}' : 
+        format: selectedTimeframe === '1D' ? '{value:%H:%M}' :
+               selectedTimeframe === '1W' ? '{value:%e %b}' :
                '{value:%Y-%m-%d}'
       },
       gridLineColor: '#333333',
@@ -127,7 +128,7 @@ const StockAnalysis = () => {
       tickColor: '#333333'
     },
     yAxis: {
-      title: { 
+      title: {
         text: 'Price ($)',
         style: { color: '#808080' }
       },
@@ -200,14 +201,7 @@ const StockAnalysis = () => {
   return (
     <div className="stock-analysis">
       <div className="search-container">
-        <input
-          type="text"
-          value={searchSymbol}
-          onChange={(e) => setSearchSymbol(e.target.value)}
-          placeholder="Search stock symbol..."
-          className="search-input"
-        />
-        <button onClick={handleSearch} className="search-button">Search</button>
+        <Search/>
       </div>
 
       <div className="stock-info-grid">
@@ -242,20 +236,20 @@ const StockAnalysis = () => {
       </div>
 
       <div className="timeframe-buttons">
-        <button 
-          className={selectedTimeframe === '1D' ? 'active' : ''} 
+        <button
+          className={selectedTimeframe === '1D' ? 'active' : ''}
           onClick={() => handleTimeframeChange('1D')}
         >1D</button>
-        <button 
-          className={selectedTimeframe === '1W' ? 'active' : ''} 
+        <button
+          className={selectedTimeframe === '1W' ? 'active' : ''}
           onClick={() => handleTimeframeChange('1W')}
         >1W</button>
-        <button 
-          className={selectedTimeframe === '1M' ? 'active' : ''} 
+        <button
+          className={selectedTimeframe === '1M' ? 'active' : ''}
           onClick={() => handleTimeframeChange('1M')}
         >1M</button>
-        <button 
-          className={selectedTimeframe === '1Y' ? 'active' : ''} 
+        <button
+          className={selectedTimeframe === '1Y' ? 'active' : ''}
           onClick={() => handleTimeframeChange('1Y')}
         >1Y</button>
       </div>

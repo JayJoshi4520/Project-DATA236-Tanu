@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Highcharts, { stockChart } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import './Predictions.css';
+
+import Search from '../components/Search';
 import { getStockDataPrediction, trainModel } from '../api';
 import { AlarmCheck } from 'lucide-react';
+
 
 const Predictions = () => {
   const [searchSymbol, setSearchSymbol] = useState(() => {
@@ -30,6 +33,7 @@ const Predictions = () => {
   const handleSearch = async() => {
     if (searchSymbol) {
       localStorage.setItem("ticker", searchSymbol);
+
       const basePrice = 100 + Math.random() * 200; 
       getStockDataPrediction(searchSymbol, "1Y").then((res) => {
 
@@ -72,6 +76,7 @@ const Predictions = () => {
 
   const handleTimeframeChange = (timeframe) => {
     setSelectedTimeframe(timeframe);
+
   };
 
   useEffect(() => {
@@ -101,7 +106,7 @@ const Predictions = () => {
       type: 'datetime',
       labels: {
         style: { color: '#808080' },
-        format: selectedTimeframe === '1D' ? '{value:%H:%M}' : 
+        format: selectedTimeframe === '1D' ? '{value:%H:%M}' :
                 selectedTimeframe === '1W' ? '{value:%a, %b %d}' :
                 selectedTimeframe === '1M' ? '{value:%b %d}' :
                 '{value:%b %Y}'
@@ -137,7 +142,7 @@ const Predictions = () => {
     tooltip: {
       backgroundColor: '#1E1E1E',
       style: { color: '#FFFFFF' },
-      xDateFormat: selectedTimeframe === '1D' ? '%H:%M:%S' : 
+      xDateFormat: selectedTimeframe === '1D' ? '%H:%M:%S' :
                   selectedTimeframe === '1W' ? '%A, %b %d' :
                   selectedTimeframe === '1M' ? '%B %d, %Y' :
                   '%B %Y',
@@ -149,16 +154,9 @@ const Predictions = () => {
 
   return (
     <div className="predictions">
-      <form onSubmit={handleSearch} className="search-form">
-        <input
-          type="text"
-          value={searchSymbol}
-          onChange={(e) => setSearchSymbol(e.target.value)}
-          placeholder="Search stock symbol..."
-          className="search-input"
-        />
-        <button type="submit" className="search-button">Search</button>
-      </form>
+      <div className="search-form">
+      <Search/>
+      </div>
 
       <div className="prediction-summary">
         <div className="prediction-grid">
@@ -184,6 +182,7 @@ const Predictions = () => {
       </div>
 
       <div className="timeframe-buttons">
+
         <button 
           className={selectedTimeframe === '1Y' ? 'active' : ''} 
           onClick={() => handleTimeframeChange('1Y')}
@@ -200,4 +199,4 @@ const Predictions = () => {
   );
 };
 
-export default Predictions; 
+export default Predictions;
