@@ -259,7 +259,7 @@ const Dashboard = () => {
       console.log(selectedStockData.chartData);
 
     }
-
+    
     const fetchData = async () => {
       try {
         const stocks = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'META', 'NVDA', 'TSLA', 'JPM', 'WMT', 'HD', 'NFLX', 'IBM'];

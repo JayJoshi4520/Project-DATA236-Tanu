@@ -113,6 +113,101 @@ export const getLiveStockData = async (symbol, timeframe) => {
   }
 };
 
+
+
+export const trainModel = async(symbol) => {
+  try{  
+    const response = await fetch(`${BASE_URL}/training`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ticker: symbol,
+      })
+    });
+
+    if(!response.ok){
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }else{
+
+      return {
+        success: true,
+        message: 'Training Done',
+      };
+    }
+
+    
+
+  }catch (error){
+    console.error('API Error:', error);
+    return {
+      success: false,
+      message: error.message,
+    };
+    
+  }
+}
+
+
+
+export const getStockDataPrediction = async (symbol, timeframe) => {
+
+
+  
+  try {
+    // Make the data request directly without health check
+    const response = await fetch(`${BASE_URL}/prediction`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ticker: symbol,
+        timeframe: timeframe
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!data || !data.liveData || data.liveData.length === 0) {
+      return {
+        success: false,
+        message: 'No data available',
+        prediction: [],
+        liveData: []
+      };
+    }
+    
+    
+
+    return {
+      success: true,
+      liveData: data.liveData,
+      company: data.company,
+      prediction: data.prediction
+    };
+  } catch (error) {
+    if(TypeError){
+      return {
+        success: false,
+        message: error.message,
+        liveData: [],
+      };
+    }else{
+      return {
+        success: false,
+        message: error.message,
+        liveData: [],
+      };
+    }
+  }
+};
+
 export const getStocks = async () => {
   try {
     const response = await fetch(`${BASE_URL}/getstocks`);
@@ -143,6 +238,10 @@ export const formatMarketData = (response) => {
     data
   };
 };
+
+
+
+
 
 // Simplified WebSocket setup
 export const setupWebSocket = (symbol, onMessage) => {
