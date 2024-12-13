@@ -252,10 +252,6 @@ const Dashboard = () => {
 
   useEffect(() => {
 
-    if(selectedStockData.chartData){
-      console.log(selectedStockData.chartData);
-      
-    }
     
     const fetchData = async () => {
       try {

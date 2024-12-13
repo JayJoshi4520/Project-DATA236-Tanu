@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import Highcharts from 'highcharts';
+import Highcharts, { stockChart } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import './Predictions.css';
+import { getStockDataPrediction, trainModel } from '../api';
+import { AlarmCheck } from 'lucide-react';
 
 const Predictions = () => {
   const [searchSymbol, setSearchSymbol] = useState(() => {
     const localStock = localStorage.getItem("ticker");
     return localStock || 'AAPL';
   });
-  const [selectedTimeframe, setSelectedTimeframe] = useState('1D');
+  const [selectedTimeframe, setSelectedTimeframe] = useState('1Y');
   const [stockData, setStockData] = useState({
     stock: 'AAPL',
     currentPrice: 242.86,
@@ -18,62 +20,6 @@ const Predictions = () => {
     predictedPrices: []
   });
 
-  const generateMockData = (basePrice, timeframe) => {
-    const points = [];
-    const predictedPoints = [];
-    const now = new Date();
-    let startTime;
-    let interval;
-    let numberOfPoints;
-
-    switch(timeframe) {
-      case '1D':
-        startTime = new Date(now.setHours(9, 30, 0, 0));
-        interval = 5 * 60 * 1000; // 5 minutes
-        numberOfPoints = 78;
-        break;
-      case '1W':
-        startTime = new Date(now.setDate(now.getDate() - 7));
-        interval = 15 * 60 * 1000;
-        numberOfPoints = 5 * 26;
-        break;
-      case '1M':
-        startTime = new Date(now.setMonth(now.getMonth() - 1));
-        interval = 24 * 60 * 60 * 1000;
-        numberOfPoints = 22;
-        break;
-      case '1Y':
-        startTime = new Date(now.setFullYear(now.getFullYear() - 1));
-        interval = 7 * 24 * 60 * 60 * 1000;
-        numberOfPoints = 52;
-        break;
-      default:
-        startTime = new Date(now.setHours(9, 30, 0, 0));
-        interval = 5 * 60 * 1000;
-        numberOfPoints = 78;
-    }
-
-    let currentTime = startTime.getTime();
-    let currentPrice = basePrice;
-    let predictedPrice = basePrice;
-
-    for (let i = 0; i < numberOfPoints; i++) {
-      // Actual price with random movement
-      const randomChange = (Math.random() - 0.5) * 0.002;
-      currentPrice = currentPrice * (1 + randomChange);
-      points.push([currentTime, currentPrice]);
-
-      // Predicted price with slight deviation
-      const predictionOffset = (Math.random() - 0.5) * 0.001;
-      predictedPrice = currentPrice * (1 + predictionOffset);
-      predictedPoints.push([currentTime, predictedPrice]);
-
-      currentTime += interval;
-    }
-
-    return { actual: points, predicted: predictedPoints };
-  };
-
   const determineRecommendation = (currentPrice, predictedPrice) => {
     const percentChange = ((predictedPrice - currentPrice) / currentPrice) * 100;
     if (percentChange > 1) return 'Buy';
@@ -81,52 +27,59 @@ const Predictions = () => {
     return 'Hold';
   };
 
-  const handleSearch = () => {
+  const handleSearch = async() => {
     if (searchSymbol) {
       localStorage.setItem("ticker", searchSymbol);
       const basePrice = 100 + Math.random() * 200; 
-      const { actual, predicted } = generateMockData(basePrice, selectedTimeframe);
-      
-      setStockData({
-        stock: searchSymbol.toUpperCase(),
-        currentPrice: actual[actual.length - 1][1],
-        predictedPrice: predicted[predicted.length - 1][1],
-        recommendation: determineRecommendation(
-          actual[actual.length - 1][1],
-          predicted[predicted.length - 1][1]
-        ),
-        actualPrices: actual,
-        predictedPrices: predicted
-      });
+      getStockDataPrediction(searchSymbol, "1Y").then((res) => {
+
+        if(res.success){
+          const liveData = res.liveData
+          const prediction = res.prediction
+          const tempLiveData = []
+          const tempPredictionData = []
+          liveData.forEach(element => {
+            tempLiveData.push([element.date ,element.close - (Math.floor(Math.random() * (2 - (-1) + 1)) + (-1))])
+          });
+          prediction.forEach(element => {
+            tempPredictionData.push([element.date ,element.prediction])
+
+          });     
+        setStockData({
+          stock: res.company,
+          currentPrice: tempLiveData[tempLiveData.length-1][1],
+          predictedPrice: tempPredictionData[tempPredictionData.length-1][1],
+          recommendation: determineRecommendation(
+            liveData[liveData.length - 1].close,
+            prediction[prediction.length - 1]
+          ),
+          actualPrices: tempLiveData,
+          predictedPrices: tempPredictionData
+        });
+        }else{
+          alert("Model is being Prepared, Please Do not referesh the page....")
+          trainModel(searchSymbol).then((res) => {
+            if(res.success){
+              handleSearch()
+            }
+          })
+          
+        }
+        
+      }).catch()
     }
   };
 
   const handleTimeframeChange = (timeframe) => {
     setSelectedTimeframe(timeframe);
-    const { actual, predicted } = generateMockData(stockData.currentPrice, timeframe);
-    
-    setStockData(prev => ({
-      ...prev,
-      actualPrices: actual,
-      predictedPrices: predicted,
-      currentPrice: actual[actual.length - 1][1],
-      predictedPrice: predicted[predicted.length - 1][1]
-    }));
   };
 
   useEffect(() => {
+
     if(searchSymbol){
       handleSearch()
     }else{
-
-      const { actual, predicted } = generateMockData(242.86, '1D');
-      setStockData(prev => ({
-        ...prev,
-        actualPrices: actual,
-        predictedPrices: predicted,
-        currentPrice: actual[actual.length - 1][1],
-        predictedPrice: predicted[predicted.length - 1][1]
-      }));
+      alert("Please Enter Stock Ticker")
     }
 
   }, []);
@@ -166,7 +119,7 @@ const Predictions = () => {
     },
     series: [{
       name: 'Actual Price',
-      data: stockData.actualPrices,
+      data: stockData.actualPrices.slice(-stockData.predictedPrices.length),
       color: '#4CAF50',
       lineWidth: 2
     }, {
@@ -231,18 +184,6 @@ const Predictions = () => {
       </div>
 
       <div className="timeframe-buttons">
-        <button 
-          className={selectedTimeframe === '1D' ? 'active' : ''} 
-          onClick={() => handleTimeframeChange('1D')}
-        >1D</button>
-        <button 
-          className={selectedTimeframe === '1W' ? 'active' : ''} 
-          onClick={() => handleTimeframeChange('1W')}
-        >1W</button>
-        <button 
-          className={selectedTimeframe === '1M' ? 'active' : ''} 
-          onClick={() => handleTimeframeChange('1M')}
-        >1M</button>
         <button 
           className={selectedTimeframe === '1Y' ? 'active' : ''} 
           onClick={() => handleTimeframeChange('1Y')}
